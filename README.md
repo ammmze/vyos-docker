@@ -1,2 +1,2 @@
 # vyos-docker
-Docker images for VyOS nightly builds
+Docker images built weekly from VyOS rolling ISOs.
