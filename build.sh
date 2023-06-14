@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ISO=$1
-TAG=$2
+NAME=$2
+shift 2
 
 # Mount ISO
 mkdir rootfs
@@ -12,5 +13,8 @@ mkdir unsquashfs
 sudo unsquashfs -f -d unsquashfs rootfs/live/filesystem.squashfs
 
 # Create Docker Image
-IMAGE=$(sudo tar -C unsquashfs -c . | docker import - foltik/vyos)
-docker tag "$IMAGE" foltik/vyos:$TAG
+IMAGE=$(sudo tar -C unsquashfs -c . | docker import - "${NAME}")
+for TAG in "$@"; do
+    docker tag "$IMAGE" "${NAME}:${TAG}"
+done
+
